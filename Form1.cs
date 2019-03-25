@@ -16,9 +16,9 @@ namespace SimpleRadar
 
         int WIDTH = 300, HEIGHT = 300, HAND = 150;
 
-        int u;  //in degree
-        int cx, cy;     //center of the circle
-        int x, y;       //HAND coordinate
+        int u;  
+        int cx, cy;     
+        int x, y;       
 
         int tx, ty, lim = 20;
 
@@ -33,40 +33,39 @@ namespace SimpleRadar
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //create Bitmap
+         
             bmp = new Bitmap(WIDTH + 1, HEIGHT + 1);
 
-            //background color
+        
             this.BackColor = Color.Black;
 
-            //center
+     
             cx = WIDTH / 2;
             cy = HEIGHT / 2;
 
-            //initial degree of HAND
+          
             u = 0;
 
-            //timer
-            t.Interval = 5; //in millisecond
+         
+            t.Interval = 5; 
             t.Tick += new EventHandler(this.t_Tick);
             t.Start();
         }
 
         private void t_Tick(object sender, EventArgs e)
         {
-            //pen
+         
             p = new Pen(Color.Green, 1f);
 
-            //graphics
+          
             g = Graphics.FromImage(bmp);
 
-            //calculate x, y coordinate of HAND
+         
             int tu = (u - lim) % 360;
 
             if (u >= 0 && u <= 180)
             {
-                //right half
-                //u in degree is converted into radian.
+                
 
                 x = cx + (int)(HAND * Math.Sin(Math.PI * u / 180));
                 y = cy - (int)(HAND * Math.Cos(Math.PI * u / 180));
@@ -79,8 +78,7 @@ namespace SimpleRadar
 
             if (tu >= 0 && tu <= 180)
             {
-                //right half
-                //tu in degree is converted into radian.
+               
 
                 tx = cx + (int)(HAND * Math.Sin(Math.PI * tu / 180));
                 ty = cy - (int)(HAND * Math.Cos(Math.PI * tu / 180));
@@ -91,26 +89,26 @@ namespace SimpleRadar
                 ty = cy - (int)(HAND * Math.Cos(Math.PI * tu / 180));
             }
 
-            //draw circle
-            g.DrawEllipse(p, 0, 0, WIDTH, HEIGHT);  //bigger circle
-            g.DrawEllipse(p, 80, 80, WIDTH - 160, HEIGHT - 160);    //smaller circle
+        
+            g.DrawEllipse(p, 0, 0, WIDTH, HEIGHT);  
+            g.DrawEllipse(p, 80, 80, WIDTH - 160, HEIGHT - 160);    
 
-            //draw perpendicular line
-            g.DrawLine(p, new Point(cx, 0), new Point(cx, HEIGHT)); // UP-DOWN
-            g.DrawLine(p, new Point(0, cy), new Point(WIDTH, cy)); //LEFT-RIGHT
+        
+            g.DrawLine(p, new Point(cx, 0), new Point(cx, HEIGHT)); 
+            g.DrawLine(p, new Point(0, cy), new Point(WIDTH, cy)); 
 
-            //draw HAND
+           
             g.DrawLine(new Pen(Color.Black, 1f), new Point(cx, cy), new Point(tx, ty));
             g.DrawLine(p, new Point(cx, cy), new Point(x, y));
 
-            //load bitmap in picturebox1
+     
             pictureBox1.Image = bmp;
 
-            //dispose
+       
             p.Dispose();
             g.Dispose();
 
-            //update
+         
             u++;
             if (u == 360)
             {
